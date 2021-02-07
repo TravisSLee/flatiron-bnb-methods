@@ -7,7 +7,7 @@ class City < ActiveRecord::Base
     cities.each do |c|
       c.listings.each do |l|
           l.reservations.each do |r|
-            if (r.checkin >= start_date.to_date) && (r.checkin <= end_date.to_date ) && (r.checkout >= start_date.to_date) && (r.checkout <= end_date.to_date )
+            if (r.checkin >= start_date.to_date) && (r.checkin <= end_date.to_date )
               availble_listings << l
             end
           end
