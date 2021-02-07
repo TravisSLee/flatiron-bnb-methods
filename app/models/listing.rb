@@ -5,6 +5,8 @@ class Listing < ActiveRecord::Base
   has_many :reviews, :through => :reservations
   has_many :guests, :class_name => "User", :through => :reservations
   validates :address, :listing_type, :title, :description, :price, :neighborhood_id, presence: true
+  # after_create :make_host
+  # after_destroy :no_host
 
   def average_review_rating
     listing = Listing.find(id)
@@ -21,4 +23,15 @@ class Listing < ActiveRecord::Base
     average_rating = review_rating_total.to_f / review_count.to_f
     average_rating 
   end
+
+  private
+
+    # def make_host
+    #   self.host = true
+    # end
+
+    # def no_host
+    #   self.host = false
+    # end
+  
 end
