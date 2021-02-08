@@ -24,14 +24,30 @@ class Listing < ActiveRecord::Base
     average_rating 
   end
 
-  private
+  def self.available(start_date, end_date)
+    if start_date && end_date
+      joins(:reservations).
+        where.not(reservations: {checkin: start_date..end_date}) &
+      joins(:reservations).
+        where.not(reservations: {checkout: start_date..end_date})
+    else
+      []
+    end
+  end
 
-    # def make_host
-    #   self.host = true
-    # end
+  
 
-    # def no_host
-    #   self.host = false
-    # end
+  def unset_host_as_host
+    # remove .id
+    if Listing.where(host: host).where.not(id: id).empty?
+      host.update(is_host: false)
+    end
+  end
+
+  def set_host_as_host
+    unless host.is_host?
+      host.update(is_host: true)
+    end
+  end
   
 end
